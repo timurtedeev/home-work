@@ -1,6 +1,7 @@
 package com.sbrf.reboot.repository;
 
 import com.sbrf.reboot.repository.impl.FileAccountRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FileAccountRepositoryTest {
 
-    AccountRepository accountRepository;
+    FileAccountRepository accountRepository;
 
     @Test
     void onlyPersonalAccounts() throws IOException {
@@ -41,6 +42,22 @@ class FileAccountRepositoryTest {
         accountRepository = new FileAccountRepository(filePath);
 
         assertThrows(FileNotFoundException.class, () -> accountRepository.getAllAccountsByClientId(clientId));
+    }
+
+    @Test
+    void updateAccountNumber() throws IOException {
+        long clientId = 2L;
+        long oldAccountNumber = 777;
+        long newAccountNumber = 456;
+
+        String filePath = "src/main/resources/Accounts.txt";
+        accountRepository = new FileAccountRepository(filePath);
+        accountRepository.updateAccountNumber(clientId, oldAccountNumber, newAccountNumber);
+        Set<Long> actualAccounts = accountRepository.getAllAccountsByClientId(2L);
+
+        Assertions.assertNotEquals(oldAccountNumber, actualAccounts.iterator().next());
+
+
     }
 
 
