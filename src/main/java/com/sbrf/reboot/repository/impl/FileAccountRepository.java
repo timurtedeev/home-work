@@ -49,12 +49,12 @@ public class FileAccountRepository implements AccountRepository {
 
     public ArrayList<String> parse(String filePath) throws IOException {
         ArrayList<String> result = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)))) {
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
-        while (reader.ready()) {
-            result.add(reader.readLine());
+            while (reader.ready()) {
+                result.add(reader.readLine());
+            }
         }
-        reader.close();
         return result;
     }
 
