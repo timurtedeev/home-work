@@ -2,7 +2,12 @@ package com.sbrf.reboot.collections;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -29,9 +34,11 @@ public class CollectionsTest {
     @Test
     public void addStudentToRating() {
 
-        List<String> students = null;
-
-        //...
+        List<String> students = new LinkedList<>();
+        students.add("Козлов");
+        students.add("Иванов");
+        students.add("Петров");
+        students.add("Сидоров");
 
         assertEquals(4, students.size());
     }
@@ -49,9 +56,10 @@ public class CollectionsTest {
     @Test
     public void addMoneyToBox() {
 
-        List<Integer> moneyBox = null;
-
-        //...
+        Set<Integer> moneyBox = new HashSet<>();
+        for (int i = 0; i < 10; i++) {
+            moneyBox.add(i);
+        }
 
         assertEquals(10, moneyBox.size());
     }
@@ -71,11 +79,37 @@ public class CollectionsTest {
         class Book {
         }
 
-        List<Book> bookshelf = null;
-
-        //...
+        List<Book> bookshelf = new ArrayList<>();
+        bookshelf.add(new Book());
+        bookshelf.add(new Book());
+        bookshelf.add(new Book());
 
         assertEquals(3, bookshelf.size());
+    }
+
+    /*
+     * Задача.
+     * В отделении Банка скапливается очередь к Окнам сотрудников.
+     * Для решения проблемы поставили терминал,который выдает талоны к определенному Окну и экран, на котором указан порядок талонов.
+     *
+     * Какую коллекцию из Collections framework вы предпочтете использовать для правильного формирования очереди ?
+     */
+
+    @Test
+    public void addBankQueue() {
+        class People {
+            String name;
+
+            public People(String name) {
+                this.name = name;
+            }
+        }
+        Queue<People> bankQueue = new LinkedList<>();
+        bankQueue.add(new People("Первый"));
+        bankQueue.add(new People("Второй"));
+        bankQueue.add(new People("Третий"));
+
+        assertEquals(3, bankQueue.size());
     }
 
 
