@@ -1,6 +1,7 @@
 package com.sbrf.reboot.service;
 
 import com.sbrf.reboot.repository.AccountRepository;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -30,6 +31,7 @@ class AccountServiceTest {
         accountService = new AccountService(accountRepository);
     }
 
+    @SneakyThrows
     @Test
     void contractExist() {
         Set<Long> accounts = new HashSet<>();
@@ -44,6 +46,7 @@ class AccountServiceTest {
         assertTrue(accountService.isClientHasContract(clientId, contractNumber));
     }
 
+    @SneakyThrows
     @Test
     void contractNotExist() {
         Set<Long> accounts = new HashSet<>();

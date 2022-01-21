@@ -2,6 +2,7 @@ package com.sbrf.reboot.service;
 
 import com.sbrf.reboot.repository.AccountRepository;
 import lombok.NonNull;
+import lombok.SneakyThrows;
 import lombok.val;
 
 
@@ -13,6 +14,7 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
+    @SneakyThrows
     public boolean isClientHasContract(long clientId, long contractNumber) {
         val accounts = accountRepository.getAllAccountsByClientId(clientId);
         return accounts.contains(contractNumber);
