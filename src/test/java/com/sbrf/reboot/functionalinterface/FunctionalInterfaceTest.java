@@ -1,6 +1,7 @@
 package com.sbrf.reboot.functionalinterface;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,8 +32,13 @@ public class FunctionalInterfaceTest {
             List<String> result = new ArrayList<>();
             if (someObjects.isEmpty())
                 throw new IllegalArgumentException("The list is empty");
-
-            //add code here...
+            someObjects.forEach(i -> {
+                try {
+                    result.add(objectToJsonFunction.applyAsJson(i));
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+            });
 
             return result;
         }
@@ -43,8 +49,8 @@ public class FunctionalInterfaceTest {
         ListConverter<SomeObject> ListConverter = new ListConverter<>();
 
         ObjectToJsonFunction<SomeObject> objectToJsonFunction = someObject -> {
-            //add code here...
-            return null;
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.writeValueAsString(someObject);
         };
 
         List<String> strings = ListConverter.toJsonsList(
@@ -58,5 +64,4 @@ public class FunctionalInterfaceTest {
         Assertions.assertTrue(strings.contains("{\"objectName\":\"Object-1\"}"));
         Assertions.assertTrue(strings.contains("{\"objectName\":\"Object-2\"}"));
     }
-
 }
