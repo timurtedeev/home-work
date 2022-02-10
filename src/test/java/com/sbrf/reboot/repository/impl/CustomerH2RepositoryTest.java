@@ -5,8 +5,11 @@ import com.sbrf.reboot.repository.CustomerRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CustomerH2RepositoryTest {
@@ -19,7 +22,7 @@ class CustomerH2RepositoryTest {
     }
 
     @Test
-    void getAll() {
+    void getAll() throws SQLException {
         boolean tomCreated = customerRepository.createCustomer("Tom", "tom@ya.ru");
 
         List<Customer> all = customerRepository.getAll();
@@ -28,10 +31,40 @@ class CustomerH2RepositoryTest {
     }
 
     @Test
-    void createCustomer() {
+    void createCustomer() throws SQLException {
 
         boolean mariaCreated = customerRepository.createCustomer("Maria", "maria98@ya.ru");
 
         assertTrue(mariaCreated);
+    }
+
+    @Test
+    void getById() throws SQLException {
+
+        boolean testCreated = customerRepository.createCustomer("test", "test98@ya.ru");
+
+        List<Customer> all = customerRepository.getAll();
+
+        Customer testFromList = all.iterator().next();
+
+        Customer testFromDb = customerRepository.getById(testFromList.getId());
+
+
+        assertEquals(testFromList, testFromDb);
+    }
+
+    @Test
+    void deleteById() throws SQLException {
+        boolean testCreated = customerRepository.createCustomer("test", "test98@ya.ru");
+
+        List<Customer> all = customerRepository.getAll();
+
+        Customer test = all.iterator().next();
+
+        customerRepository.deleteById(test.getId());
+
+        Customer beforeDelete = customerRepository.getById(test.getId());
+
+        assertNull(beforeDelete.getId());
     }
 }
