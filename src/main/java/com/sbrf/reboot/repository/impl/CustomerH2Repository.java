@@ -3,12 +3,7 @@ package com.sbrf.reboot.repository.impl;
 import com.sbrf.reboot.dto.Customer;
 import com.sbrf.reboot.repository.CustomerRepository;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +15,6 @@ public class CustomerH2Repository implements CustomerRepository {
     private final String USER = "sa";
     private final String PASS = "";
 
-    public CustomerH2Repository() {
-        Connection conn = null;
-        Statement stmt = null;
-
-    }
 
     @Override
     public List<Customer> getAll() throws SQLException {
@@ -97,9 +87,24 @@ public class CustomerH2Repository implements CustomerRepository {
         if (resultSet.next()) {
             customer.setId(resultSet.getLong("I_ID"));
             customer.setName(resultSet.getString("S_NAME"));
-            customer.setEMail(resultSet.getString("EMAIL"));
+            customer.seteMail(resultSet.getString("EMAIL"));
         }
         return customer;
+    }
+
+    @Override
+    public void createTable() throws SQLException {
+        try (Connection conn = getConnection()) {
+            String sql =
+                    "DROP TABLE IF EXISTS customer;" +
+                            "CREATE TABLE customer (" +
+                            "I_ID INT PRIMARY KEY AUTO_INCREMENT," +
+                            "S_NAME VARCHAR(255)," +
+                            "EMAIL VARCHAR(255)," +
+                            ");";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.executeUpdate();
+        }
     }
 }
 

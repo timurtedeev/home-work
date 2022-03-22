@@ -8,17 +8,16 @@ import org.junit.jupiter.api.Test;
 import java.sql.SQLException;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CustomerH2RepositoryTest {
 
     private static CustomerRepository customerRepository;
 
     @BeforeAll
-    public static void before() {
+    public static void before() throws SQLException {
         customerRepository = new CustomerH2Repository();
+        customerRepository.createTable();
     }
 
     @Test

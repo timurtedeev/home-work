@@ -16,4 +16,5 @@ public interface CustomerRepository {
 
     void deleteById(Long id) throws SQLException;
 
+    void createTable() throws SQLException;
 }
